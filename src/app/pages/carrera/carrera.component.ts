@@ -4,6 +4,9 @@ import { Observable, catchError, tap, throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-carrera',
@@ -122,4 +125,46 @@ export class CarreraComponent implements OnInit  {
         })
       );
     }
+
+    generatePdf(): void {
+      const doc = new jsPDF();
+  
+      doc.setFontSize(10);
+      doc.text("UNIV-SYS", 15, 35);
+      doc.text("Santa Cruz - Bolivia", 15, 40);
+      doc.text(`fecha : 18/06/2024`, 145, 40);
+  
+      doc.setFontSize(20);
+      doc.text("REPORTE DE FACULTAD", 55, 25);
+      const columns = ["CODIGO", "NOMBRE"];
+  
+      const data = this.faculties.map((facultie) => [
+        facultie.id,
+        facultie.name,
+      ]);
+  
+      autoTable(doc, {
+        startY: 43,
+        head: [columns],
+        body: data,
+        headStyles: { fillColor: [28, 172, 93] },
+        styles: {
+          cellPadding: 3,
+          fontSize: 10,
+          valign: "middle",
+          halign: "left",
+        }
+      });
+  
+     
+      doc.save("reporteFacultad.pdf");
+    }
+  
+    generateExcel = async() => {
+     
+      const worksheet = XLSX.utils.json_to_sheet(this.faculties);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+      XLSX.writeFile(workbook, 'reporteFacultad' + '.xlsx');
+    };
 }

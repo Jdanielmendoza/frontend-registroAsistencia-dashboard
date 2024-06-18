@@ -4,6 +4,9 @@ import { Observable, catchError, tap, throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-admin',
@@ -31,7 +34,7 @@ export class AdminComponent implements OnInit {
   ngOnInit() { // Asegúrate de implementar OnInit y que esté bien escrito
     this.getUsers().subscribe(
       data => {
-        this.users = data
+        this.users = data.filter((userAdmin:any) => userAdmin.role === 'ADMIN');
         console.log('Data:', this.users);
       },
       error => {
@@ -89,5 +92,49 @@ export class AdminComponent implements OnInit {
         alert('Please fill out the form correctly.');
       }
     }
-    
+    generatePdf(): void {
+      const doc = new jsPDF();
+  
+      doc.setFontSize(10);
+      doc.text("UNIV-SYS", 15, 35);
+      doc.text("Santa Cruz - Bolivia", 15, 40);
+      doc.text(`fecha : 18/06/2024`, 145, 40);
+  
+      doc.setFontSize(20);
+      doc.text("REPORTE DE ADMINISTRADORES", 55, 25);
+      const columns = ["ID", "NOMBRE","EDAD","TELEFONO","EMAIL","ROL"];
+  
+      const data = this.users.map((user) => [
+        user.id,
+        user.name,
+        user.age,
+        user.phoneNumber,
+        user.email,
+        user.role
+      ]);
+  
+      autoTable(doc, {
+        startY: 43,
+        head: [columns],
+        body: data,
+        headStyles: { fillColor: [28, 172, 93] },
+        styles: {
+          cellPadding: 3,
+          fontSize: 10,
+          valign: "middle",
+          halign: "left",
+        }
+      });
+  
+     
+      doc.save("reporteAdministradores.pdf");
+    }
+  
+    generateExcel = async() => {
+     
+      const worksheet = XLSX.utils.json_to_sheet(this.users);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+      XLSX.writeFile(workbook, 'reporteAdministradores' + '.xlsx');
+    };
 }

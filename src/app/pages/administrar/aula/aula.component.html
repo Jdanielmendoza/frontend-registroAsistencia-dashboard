@@ -62,7 +62,7 @@
                   d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
                 />
               </svg>
-              Agregar Facultad
+              Agregar aula
             </button>
             <button
             (click)="generatePdf()"
@@ -88,9 +88,9 @@
               class="text-xs w-svw text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
             >
               <tr >
-                <th scope="col" class="px-4 py-4">Número</th>
-                <th scope="col" class="px-4 py-3">Nombre</th>
-                <th scope="col" class="px-0 py-3"></th>
+                <th scope="col" class="px-4 py-4">Indice</th>
+                <th scope="col" class="px-4 py-3">Modulo</th>
+                <th scope="col" class="px-0 py-3">Numero de aula</th>
                 <th scope="col" class="px-0 py-3"></th>
                 <th scope="col" class="px-0 py-3">
                   <span class="sr-only">Actions</span>
@@ -98,15 +98,15 @@
               </tr>
             </thead>
             <tbody  >
-              <tr *ngFor="let facultie of faculties; let i = index  "   class="border-b dark:border-gray-700">
+              <tr *ngFor="let classroom of classrooms; let i = index  "   class="border-b dark:border-gray-700">
                 <th
                   scope="row"
                   class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  {{i + 1 }}
+                  {{ i + 1 }}
                 </th>
-                <td class="px-4 py-3">{{facultie.name}} </td>
-                <td class="px-4 py-3"></td>
+                <td class="px-4 py-3">{{classroom.module.moduleNumber}} </td>
+                <td class="px-4 py-3">{{classroom.classroomNumber}} </td>
                 <td class="px-4 py-3 max-w-[12rem] truncate">
                 </td>
                 <td class="px-4 py-3"></td>
@@ -215,7 +215,7 @@
           class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600"
         >
           <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            Crear facultad
+            Crear aula
           </h3>
           <button
             type="button"
@@ -240,25 +240,43 @@
           </button>
         </div>
         <!-- Modal body register user -->
-        <form [formGroup]="formRegister" (ngSubmit)="createFacultie()" >
+        <form [formGroup]="formRegister" (ngSubmit)="createClassroom()" >
           <div class="grid gap-4 mb-4 sm:grid-cols-2">
             <div>
               <label
                 for="name"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Nombre</label
+                >Numero de aula</label
               >
               <input
-                type="text"
+                type="number"
                 name="name"
                 formControlName="name"
                 id="name"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="nombre de la facultad"
+                placeholder="24"
                 required=""
               />
             </div>
-            
+            <div>
+              <label
+                for="module"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Modulo</label
+              ><select
+                id="module"
+                formControlName="module"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option
+                  *ngFor="let module of modules"
+                  value="{{ module.id }}"
+                >
+                  {{ module.moduleNumber }}
+                </option>
+                
+              </select>
+            </div>
           </div>
           <button
             type="submit"
@@ -276,7 +294,7 @@
                 clip-rule="evenodd"
               />
             </svg>
-             Registrar facultad
+             Registrar aula
           </button>
         </form>
       </div>

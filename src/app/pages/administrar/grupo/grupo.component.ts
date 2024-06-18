@@ -14,16 +14,16 @@ import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-facultad',
+  selector: 'app-grupo',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './facultad.component.html',
-  styleUrl: './facultad.component.css',
+  templateUrl: './grupo.component.html',
+  styleUrl: './grupo.component.css'
 })
-export class FacultadComponent {
+export class GrupoComponent {
   private apiUrl = 'https://si2parcial.onrender.com/api'; //URL de API
   private tokenKey = 'authToken';
-  faculties: any[] = [];
+  groups: any[] = [];
   formRegister: FormGroup;
 
   constructor(
@@ -37,10 +37,10 @@ export class FacultadComponent {
 
   ngOnInit() {
     // Asegúrate de implementar OnInit y que esté bien escrito
-    this.getFaculties().subscribe(
+    this.getGroups().subscribe(
       (data) => {
-        this.faculties = data;
-        console.log('Data:', this.faculties);
+        this.groups = data;
+        console.log('Data:', this.groups);
       },
       (error) => {
         console.error('Error:', error);
@@ -48,28 +48,28 @@ export class FacultadComponent {
     );
   }
 
-  getFaculties(): Observable<any> {
-    console.log('Fetching Faculties...');
+  getGroups(): Observable<any> {
+    console.log('Fetching Groups...');
 
     const token = localStorage.getItem(this.tokenKey);
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
 
-    return this.http.get<any>(`${this.apiUrl}/faculties`, { headers }).pipe(
+    return this.http.get<any>(`${this.apiUrl}/groups`, { headers }).pipe(
       tap((response) => {
-        console.log('faculties fetched successfully:', response);
+        console.log('groups fetched successfully:', response);
       }),
       catchError((error) => {
-        console.error('Error fetching Faculties:', error);
+        console.error('Error fetching groups:', error);
         return throwError(
-          () => new Error('Error fetching Faculties, please try again later.')
+          () => new Error('Error fetching groups, please try again later.')
         );
       })
     );
   }
 
-  createFacultie(): void {
+  createGroup(): void {
     if (this.formRegister.valid) {
       const { name } = this.formRegister.value;
       console.log({ name });
@@ -78,15 +78,15 @@ export class FacultadComponent {
         Authorization: `Bearer ${token}`,
       });
 
-      this.http.post<any>(`${this.apiUrl}/faculties`, { name},{headers}).subscribe(
+      this.http.post<any>(`${this.apiUrl}/groups`, { name},{headers}).subscribe(
         (response) => {
-          console.log('facultie created successfully:', response);
+          console.log('group created successfully:', response);
          
           this.formRegister.reset();
         },
         (error) => {
-          console.error('Error creating facultie:', error);
-          alert('Error creating facultie. Please try again.');
+          console.error('Error creating group:', error);
+          alert('Error creating group. Please try again.');
         }
       );
     } else {
@@ -104,10 +104,10 @@ export class FacultadComponent {
     doc.text(`fecha : 18/06/2024`, 145, 40);
 
     doc.setFontSize(20);
-    doc.text("REPORTE DE FACULTAD", 55, 25);
+    doc.text("REPORTE DE GRUPO", 55, 25);
     const columns = ["CODIGO", "NOMBRE"];
 
-    const data = this.faculties.map((facultie) => [
+    const data = this.groups.map((facultie) => [
       facultie.id,
       facultie.name,
     ]);
@@ -126,14 +126,14 @@ export class FacultadComponent {
     });
 
    
-    doc.save("reporteFacultad.pdf");
+    doc.save("reporteGrupo.pdf");
   }
 
   generateExcel = async() => {
    
-    const worksheet = XLSX.utils.json_to_sheet(this.faculties);
+    const worksheet = XLSX.utils.json_to_sheet(this.groups);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-    XLSX.writeFile(workbook, 'reporteFacultad' + '.xlsx');
+    XLSX.writeFile(workbook, 'reporteGrupo' + '.xlsx');
   };
 }

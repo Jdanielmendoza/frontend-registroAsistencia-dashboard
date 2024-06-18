@@ -14,28 +14,37 @@ import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-modulos',
+  selector: 'app-aula',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule], // Añade los módulos necesarios aquí
-  templateUrl: './modulos.component.html',
-  styleUrls: ['./modulos.component.css'],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  templateUrl: './aula.component.html',
+  styleUrl: './aula.component.css',
 })
-export class ModulosComponent implements OnInit {
+export class AulaComponent implements OnInit {
   private apiUrl = 'https://si2parcial.onrender.com/api'; //URL de API
   private tokenKey = 'authToken';
+  classrooms: any[] = [];
   modules: any[] = [];
-  faculties: any[] = [];
   formRegister: FormGroup;
 
   constructor(private http: HttpClient, private fb: FormBuilder) {
     this.formRegister = this.fb.group({
       name: ['', Validators.required],
-      facultie: ['', Validators.required],
+      module: ['', Validators.required],
     });
   }
 
   ngOnInit() {
     // Asegúrate de implementar OnInit y que esté bien escrito
+    this.getClassrooms().subscribe(
+      (data) => {
+        this.classrooms = data;
+        console.log('Data:', this.classrooms);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
     this.getModules().subscribe(
       (data) => {
         this.modules = data;
@@ -45,16 +54,101 @@ export class ModulosComponent implements OnInit {
         console.error('Error:', error);
       }
     );
-    this.getFaculties().subscribe(
-      (data) => {
-        this.faculties = data;
-        console.log('Data-faculties:', this.faculties);
-      },
-      (error) => {
-        console.error('Error:', error);
-      }
+  }
+
+  getClassrooms(): Observable<any> {
+    console.log('Fetching Classrooms...');
+
+    const token = localStorage.getItem(this.tokenKey);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get<any>(`${this.apiUrl}/classrooms`, { headers }).pipe(
+      tap((response) => {
+        console.log('classrooms fetched successfully:', response);
+      }),
+      catchError((error) => {
+        console.error('Error fetching classrooms:', error);
+        return throwError(
+          () => new Error('Error fetching classrooms, please try again later.')
+        );
+      })
     );
   }
+
+  createClassroom(): void {
+    if (this.formRegister.valid) {
+      const { name, module } = this.formRegister.value;
+      console.log({ name, module });
+      const token = localStorage.getItem(this.tokenKey);
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`,
+      });
+
+      this.http
+        .post<any>(
+          `${this.apiUrl}/classrooms`,
+          { classroomNumber: name, moduleId: module },
+          { headers }
+        )
+        .subscribe(
+          (response) => {
+            console.log('classroom created successfully:', response);
+
+            this.formRegister.reset();
+          },
+          (error) => {
+            console.error('Error creating classroom:', error);
+            alert('Error creating classroom. Please try again.');
+          }
+        );
+    } else {
+      console.warn('Form is invalid');
+      alert('Please fill out the form correctly.');
+    }
+  }
+
+  generatePdf(): void {
+    const doc = new jsPDF();
+
+    doc.setFontSize(10);
+    doc.text('UNIV-SYS', 15, 35);
+    doc.text('Santa Cruz - Bolivia', 15, 40);
+    doc.text(`fecha : 18/06/2024`, 145, 40);
+
+    doc.setFontSize(20);
+    doc.text('REPORTE DE AULA', 55, 25);
+    const columns = ['INDICE', 'MODULO', 'NUMERO DE AULA'];
+
+    const data = this.classrooms.map((classroom,index) => [
+      index + 1,
+      classroom.module.moduleNumber,
+      classroom.classroomNumber
+    ]);
+
+    autoTable(doc, {
+      startY: 43,
+      head: [columns],
+      body: data,
+      headStyles: { fillColor: [28, 172, 93] },
+      styles: {
+        cellPadding: 3,
+        fontSize: 10,
+        valign: 'middle',
+        halign: 'left',
+      },
+    });
+
+    doc.save('reporteAula.pdf');
+  }
+
+  generateExcel = async () => {
+    const worksheet = XLSX.utils.json_to_sheet(this.classrooms);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+    XLSX.writeFile(workbook, 'reporteAula' + '.xlsx');
+  };
 
   getModules(): Observable<any> {
     console.log('Fetching modules...');
@@ -76,100 +170,4 @@ export class ModulosComponent implements OnInit {
       })
     );
   }
-
-  createModule(): void {
-    if (this.formRegister.valid) {
-      const { name, facultie } = this.formRegister.value;
-      console.log({ name, facultie });
-
-      const token = localStorage.getItem(this.tokenKey);
-      const headers = new HttpHeaders({
-        Authorization: `Bearer ${token}`,
-      });
-
-      this.http
-        .post<any>(
-          `${this.apiUrl}/modules`,
-          { moduleNumber: name, facultyId: facultie },
-          { headers }
-        )
-        .subscribe(
-          (response) => {
-            console.log('module created successfully:', response);
-
-            this.formRegister.reset();
-          },
-          (error) => {
-            console.error('Error creating facultie:', error);
-            alert('Error creating facultie. Please try again.');
-          }
-        );
-    } else {
-      console.warn('Form is invalid');
-      alert('Please fill out the form correctly.');
-    }
-  }
-
-  getFaculties(): Observable<any> {
-    console.log('Fetching Faculties...');
-
-    const token = localStorage.getItem(this.tokenKey);
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-
-    return this.http.get<any>(`${this.apiUrl}/faculties`, { headers }).pipe(
-      tap((response) => {
-        console.log('faculties fetched successfully:', response);
-      }),
-      catchError((error) => {
-        console.error('Error fetching Faculties:', error);
-        return throwError(
-          () => new Error('Error fetching Faculties, please try again later.')
-        );
-      })
-    );
-  }
-
-  /*generar reporte en formato pdf */
-  generarReporteModulo(): void {
-    const doc = new jsPDF();
-
-    doc.setFontSize(10);
-    doc.text('UNIV-SYS', 15, 35);
-    doc.text('Santa Cruz - Bolivia', 15, 40);
-    doc.text(`fecha : 18/06/2024`, 145, 40);
-
-    doc.setFontSize(20);
-    doc.text('REPORTE DE MODULOS', 55, 25);
-    const columns = ['CODIGO', 'NOMBRE', 'FACULTAD'];
-
-    const data = this.modules.map((modulo) => [
-      modulo.id,
-      modulo.moduleNumber,
-      modulo.faculty_id.name,
-    ]);
-
-    autoTable(doc, {
-      startY: 43,
-      head: [columns],
-      body: data,
-      headStyles: { fillColor: [28, 172, 93] },
-      styles: {
-        cellPadding: 3,
-        fontSize: 10,
-        valign: 'middle',
-        halign: 'left',
-      },
-    });
-
-    doc.save('modulo.pdf');
-  }
-
-  generateExcel = async () => {
-    const worksheet = XLSX.utils.json_to_sheet(this.modules);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-    XLSX.writeFile(workbook, 'reporteModulo' + '.xlsx');
-  };
 }

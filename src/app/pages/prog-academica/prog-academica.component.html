@@ -10,7 +10,7 @@
       >
         <div class="w-full md:w-1/2">
           <form class="flex items-center">
-            <label for="simple-search" class="sr-only">Search</label>
+            <label for="simple-search" class="sr-only">Buscar</label>
             <div class="relative w-full">
               <div
                 class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
@@ -43,48 +43,209 @@
           class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
         >
           <button
+            id="multiLevelDropdownButton"
+            data-dropdown-toggle="multi-dropdown"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             type="button"
-            id="createProductModalButton"
-            data-modal-target="createProductModal"
-            data-modal-toggle="createProductModal"
-            class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
           >
+            Filtro
             <svg
-              class="h-3.5 w-3.5 mr-2"
-              fill="currentColor"
-              viewbox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
+              class="w-2.5 h-2.5 ms-3"
               aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
             >
               <path
-                clip-rule="evenodd"
-                fill-rule="evenodd"
-                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 4 4 4-4"
               />
             </svg>
-            Agregar administrador
+          </button>
+
+          <!-- Dropdown menu -->
+          <div
+            id="multi-dropdown"
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+          >
+            <ul
+              class="py-2 text-sm text-gray-700 dark:text-gray-200"
+              aria-labelledby="multiLevelDropdownButton"
+            >
+              
+              <li>
+                <button
+                  id="doubleDropdownButton"
+                  data-dropdown-toggle="doubleDropdown"
+                  data-dropdown-placement="right-start"
+                  type="button"
+                  class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Materia<svg
+                    class="w-2.5 h-2.5 ms-3 rtl:rotate-180"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 6 10"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 9 4-4-4-4"
+                    />
+                  </svg>
+                </button>
+                <div
+                  id="doubleDropdown"
+                  class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+                >
+                  <ul
+                    class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                    aria-labelledby="doubleDropdownButton"
+                  >
+                    <li>
+                      <a
+                        (click)="filtrarPorMateria('Calculo I')"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >Calculo I</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                      (click)="filtrarPorMateria('Sistemas de Informacion I')"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >Sistemas de Informacion I</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                      (click)="filtrarPorMateria('Sistemas Distribuidos')"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >Sistemas Distribuidos</a
+                      >
+                    </li>
+                   
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <button
+                  id="doubleDropdownButton2"
+                  data-dropdown-toggle="doubleDropdown2"
+                  data-dropdown-placement="right-start"
+                  type="button"
+                  class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Carrera<svg
+                    class="w-2.5 h-2.5 ms-3 rtl:rotate-180"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 6 10"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 9 4-4-4-4"
+                    />
+                  </svg>
+                </button>
+                <div
+                  id="doubleDropdown2"
+                  class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+                >
+                  <ul
+                    class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                    aria-labelledby="doubleDropdownButton2"
+                  >
+                    <li>
+                      <a
+                      (click)="filtrarPorCarrera('Ingenieria Informatica')"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >Ingenieria Informatica</a
+                      >
+                    </li>
+                    
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <button
+                  id="doubleDropdownButton3"
+                  data-dropdown-toggle="doubleDropdown3"
+                  data-dropdown-placement="right-start"
+                  type="button"
+                  class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Grupo<svg
+                    class="w-2.5 h-2.5 ms-3 rtl:rotate-180"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 6 10"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 9 4-4-4-4"
+                    />
+                  </svg>
+                </button>
+                <div
+                  id="doubleDropdown3"
+                  class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+                >
+                  <ul
+                    class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                    aria-labelledby="doubleDropdownButton3"
+                  >
+                    <li>
+                      <a
+                        (click)="filtrarPorGrupo('SA')"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >SA</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        (click)="filtrarPorGrupo('SB')"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >SB</a
+                      >
+                    </li>
+                    
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <button
+            (click)="generarReporteModulo()"
+            type="button"
+            class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+          >
+            PDF
           </button>
           <button
-          (click)="generatePdf()"
-          type="button"
-          class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-        >
-          PDF
-        </button>
-        <button
-          (click)="generateExcel()"
-          type="button"
-          class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-        >
-          Excel
-        </button>
+            (click)="generateExcel()"
+            type="button"
+            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+          >
+            Excel
+          </button>
         </div>
       </div>
       <div class="overflow-x-auto">
-        <!--  "name": "Marcelo",
-    "email": "marceloTeacher@gmail.com",
-    "age": 24,
-    "phoneNumber": "74613450", -->
         <table
           class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
         >
@@ -92,136 +253,42 @@
             class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
           >
             <tr>
-              <th scope="col" class="px-4 py-4">Nombre</th>
-              <th scope="col" class="px-4 py-3">Edad</th>
-              <th scope="col" class="px-4 py-3">Telefono</th>
-              <th scope="col" class="px-4 py-3">mail</th>
-              <th scope="col" class="px-4 py-3">Rol</th>
-              <th scope="col" class="px-4 py-3">
-                <span class="sr-only">Actions</span>
-              </th>
+              <th scope="col" class="px-4 py-4">Indice</th>
+              <th scope="col" class="px-4 py-3">Numero de modulo</th>
+              <th scope="col" class="px-4 py-3">Sigla</th>
+              <th scope="col" class="px-4 py-3">Carrera</th>
+              <th scope="col" class="px-4 py-3">Materia</th>
+              <th scope="col" class="px-4 py-3">Grupo</th>
+              <th scope="col" class="px-4 py-3">dias</th>
+              <th scope="col" class="px-4 py-3">Hora de entrada</th>
+              <th scope="col" class="px-4 py-3">Hora de salida</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of users; let i = index  "   class="border-b dark:border-gray-700">
+            <tr
+              *ngFor="let module of modules; let i = index"
+              class="border-b dark:border-gray-700"
+            >
               <th
                 scope="row"
                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
               >
-                {{user.name }}
+                {{ i + 1 }}
               </th>
-              <td class="px-4 py-3">{{user.age}} </td>
-              <td class="px-4 py-3">{{user.phoneNumber}}</td>
-              <td class="px-4 py-3 max-w-[12rem] truncate">
-                {{user.email}}
+              <!-- max-w-[12rem] truncate -->
+              <td class="px-4 py-3">
+                {{ module.classroom.module.moduleNumber }}
               </td>
-              <td class="px-4 py-3">{{user.role}}</td>
-              <td class="px-4 py-3 flex items-center justify-end">
-                <button
-                  id ="{{i}}-dropdown-button"
-                  [attr.data-dropdown-toggle]="'dropdown-' + i"
-                  class="inline-flex items-center text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700 p-1.5 dark:hover-bg-gray-800 text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                  type="button"
-                >
-                  <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="currentColor"
-                    viewbox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"
-                    />
-                  </svg>
-                </button>
-                <div
-                  [attr.id]="'dropdown-' + i "
-                  class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                >
-                  <ul
-                    class="py-1 text-sm"
-                    [attr.aria-labelledby]="i + '-dropdown-button'"
-                  >
-                    <li>
-                      <button
-                        type="button"
-                        data-modal-target="updateProductModal"
-                        data-modal-toggle="updateProductModal"
-                        class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-                      >
-                        <svg
-                          class="w-4 h-4 mr-2"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewbox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"
-                          />
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                          />
-                        </svg>
-                        Edit
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        data-modal-target="readProductModal"
-                        data-modal-toggle="readProductModal"
-                        class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-                      >
-                        <svg
-                          class="w-4 h-4 mr-2"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewbox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                          />
-                        </svg>
-                        Preview
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        data-modal-target="deleteModal"
-                        data-modal-toggle="deleteModal"
-                        class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 text-red-500 dark:hover:text-red-400"
-                      >
-                        <svg
-                          class="w-4 h-4 mr-2"
-                          viewbox="0 0 14 15"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            fill="currentColor"
-                            d="M6.09922 0.300781C5.93212 0.30087 5.76835 0.347476 5.62625 0.435378C5.48414 0.523281 5.36931 0.649009 5.29462 0.798481L4.64302 2.10078H1.59922C1.36052 2.10078 1.13161 2.1956 0.962823 2.36439C0.79404 2.53317 0.699219 2.76209 0.699219 3.00078C0.699219 3.23948 0.79404 3.46839 0.962823 3.63718C1.13161 3.80596 1.36052 3.90078 1.59922 3.90078V12.9008C1.59922 13.3782 1.78886 13.836 2.12643 14.1736C2.46399 14.5111 2.92183 14.7008 3.39922 14.7008H10.5992C11.0766 14.7008 11.5344 14.5111 11.872 14.1736C12.2096 13.836 12.3992 13.3782 12.3992 12.9008V3.90078C12.6379 3.90078 12.8668 3.80596 13.0356 3.63718C13.2044 3.46839 13.2992 3.23948 13.2992 3.00078C13.2992 2.76209 13.2044 2.53317 13.0356 2.36439C12.8668 2.1956 12.6379 2.10078 12.3992 2.10078H9.35542L8.70382 0.798481C8.62913 0.649009 8.5143 0.523281 8.37219 0.435378C8.23009 0.347476 8.06631 0.30087 7.89922 0.300781H6.09922ZM4.29922 5.70078C4.29922 5.46209 4.39404 5.23317 4.56282 5.06439C4.73161 4.8956 4.96052 4.80078 5.19922 4.80078C5.43791 4.80078 5.66683 4.8956 5.83561 5.06439C6.0044 5.23317 6.09922 5.46209 6.09922 5.70078V11.1008C6.09922 11.3395 6.0044 11.5684 5.83561 11.7372C5.66683 11.906 5.43791 12.0008 5.19922 12.0008C4.96052 12.0008 4.73161 11.906 4.56282 11.7372C4.39404 11.5684 4.29922 11.3395 4.29922 11.1008V5.70078ZM8.79922 4.80078C8.56052 4.80078 8.33161 4.8956 8.16282 5.06439C7.99404 5.23317 7.89922 5.46209 7.89922 5.70078V11.1008C7.89922 11.3395 7.99404 11.5684 8.16282 11.7372C8.33161 11.906 8.56052 12.0008 8.79922 12.0008C9.03791 12.0008 9.26683 11.906 9.43561 11.7372C9.6044 11.5684 9.69922 11.3395 9.69922 11.1008V5.70078C9.69922 5.46209 9.6044 5.23317 9.43561 5.06439C9.26683 4.8956 9.03791 4.80078 8.79922 4.80078Z"
-                          />
-                        </svg>
-                        Delete
-                      </button>
-                    </li>
-                  </ul>
-                </div>
+              <td class="px-4 py-3">{{ module.subject.career_id.sigla }}</td>
+              <td class="px-4 py-3">{{ module.subject.career_id.name }}</td>
+              <td class="px-4 py-3">
+                {{ module.subject.sigla }}-{{ module.subject.name }}
               </td>
+              <td class="px-4 py-3">{{ module.group.name }}</td>
+              <td class="px-4 py-3">{{ module.dias }}</td>
+              <td class="px-4 py-3">{{ module.horarioEntrada }}</td>
+              <td class="px-4 py-3">{{ module.horarioSalida }}</td>
             </tr>
-                  
           </tbody>
         </table>
       </div>
@@ -257,6 +324,7 @@
               </svg>
             </a>
           </li>
+
           <li>
             <a
               href="#"
@@ -265,6 +333,7 @@
               >1</a
             >
           </li>
+
           <li>
             <a
               href="#"
@@ -309,7 +378,7 @@
         class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600"
       >
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          Crear usuario
+          Crear modulo
         </h3>
         <button
           type="button"
@@ -334,88 +403,45 @@
         </button>
       </div>
       <!-- Modal body register user -->
-      <form [formGroup]="formRegister" (ngSubmit)="createUser()" >
+      <form [formGroup]="formRegister" (ngSubmit)="createModule()">
         <div class="grid gap-4 mb-4 sm:grid-cols-2">
           <div>
             <label
               for="name"
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Nombre</label
+              >Numero de modulo</label
             >
             <input
               type="text"
-              name="name"
+              name="number"
               formControlName="name"
               id="name"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="Type product name"
+              placeholder="245"
               required=""
             />
           </div>
           <div>
             <label
-              for="email"
+              for="facultie"
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >email</label
+              >Facultad</label
+            ><select
+              id="facultie"
+              formControlName="facultie"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             >
-            <input
-              type="email"
-              formControlName="email"
-              name="email"
-              id="email"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="nombre@gmail.com"
-              required
-            />
+              <option
+                *ngFor="let facultad of faculties"
+                value="{{ facultad.id }}"
+              >
+                {{ facultad.name }}
+              </option>
+              <option selected value="236">
+                Facultad de Ciencias de la Computacion y Telecomunicaciones
+              </option>
+            </select>
           </div>
-          <div>
-            <label
-              for="age"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >edad</label
-            >
-            <input
-              type="number"
-              name="age"
-              formControlName="age"
-              id="age"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="20"
-              required
-            />
-          </div>
-          <div>
-            <label
-              for="phone"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Telefono</label
-            >
-            <input
-              type="number"
-              formControlName="phone"
-              name="phone"
-              id="phone"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="71024310"
-              required
-            />
-          </div>
-          <div class=" w-full " >
-            <label
-              for="password"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Contraseña</label
-            >
-            <input
-              type="password"
-              formControlName="password"
-              name="password"
-              id="password"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="****"
-              required
-            />
-          </div> 
         </div>
         <button
           type="submit"
@@ -433,7 +459,7 @@
               clip-rule="evenodd"
             />
           </svg>
-           Registrar administrador
+          Registrar modulo
         </button>
       </form>
     </div>
@@ -554,7 +580,7 @@
               class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               placeholder="Write a description..."
             >
-Standard glass, 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, 16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with 8GB of GDDR6 memory, 256GB SSD storage, Gigabit Ethernet, Magic Mouse 2, Magic Keyboard - US</textarea
+    Standard glass, 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, 16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with 8GB of GDDR6 memory, 256GB SSD storage, Gigabit Ethernet, Magic Mouse 2, Magic Keyboard - US</textarea
             >
           </div>
         </div>

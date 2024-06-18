@@ -13,14 +13,15 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
+
 @Component({
-  selector: 'app-modulos',
+  selector: 'app-prog-academica',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule], // Añade los módulos necesarios aquí
-  templateUrl: './modulos.component.html',
-  styleUrls: ['./modulos.component.css'],
+  templateUrl: './prog-academica.component.html',
+  styleUrl: './prog-academica.component.css'
 })
-export class ModulosComponent implements OnInit {
+export class ProgAcademicaComponent {
   private apiUrl = 'https://si2parcial.onrender.com/api'; //URL de API
   private tokenKey = 'authToken';
   modules: any[] = [];
@@ -64,7 +65,7 @@ export class ModulosComponent implements OnInit {
       Authorization: `Bearer ${token}`,
     });
 
-    return this.http.get<any>(`${this.apiUrl}/modules`, { headers }).pipe(
+    return this.http.get<any>(`${this.apiUrl}/academic-program/classes`, { headers }).pipe(
       tap((response) => {
         console.log('Modules fetched successfully:', response);
       }),
@@ -141,13 +142,18 @@ export class ModulosComponent implements OnInit {
     doc.text(`fecha : 18/06/2024`, 145, 40);
 
     doc.setFontSize(20);
-    doc.text('REPORTE DE MODULOS', 55, 25);
-    const columns = ['CODIGO', 'NOMBRE', 'FACULTAD'];
-
-    const data = this.modules.map((modulo) => [
-      modulo.id,
-      modulo.moduleNumber,
-      modulo.faculty_id.name,
+    doc.text('REPORTE DE PROGRAMACION ACADEMICA', 25, 25);
+    const columns = ['INDICE',	'NUMERO DE MODULO',	'SIGLA',	'CARRERA','MATERIA',	'GRUPO',	'DIAS',	'HORA DE ENTRADA',	'HORA DE SALIDA']
+    const data = this.modules.map((module,index) => [
+      index + 1,
+      module.classroom.module.moduleNumber ,
+      module.subject.career_id.sigla,
+      module.subject.career_id.name,
+      module.subject.name ,
+      module.group.name,
+      module.dias,
+      module.horarioEntrada,
+      module.horarioSalida
     ]);
 
     autoTable(doc, {
@@ -163,13 +169,25 @@ export class ModulosComponent implements OnInit {
       },
     });
 
-    doc.save('modulo.pdf');
+    doc.save('programacionAcademica.pdf');
   }
 
   generateExcel = async () => {
     const worksheet = XLSX.utils.json_to_sheet(this.modules);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-    XLSX.writeFile(workbook, 'reporteModulo' + '.xlsx');
+    XLSX.writeFile(workbook, 'programacionAcademica' + '.xlsx');
   };
+
+
+  /* filtros */
+  filtrarPorGrupo(name:string = 'SA'):void {
+    this.modules = this.modules.filter(module => module.group.name == name ) ;
+  }
+  filtrarPorMateria(name:string = 'Calculo I'):void {
+    this.modules = this.modules.filter(module => module.subject.name == name ) ;
+  }
+  filtrarPorCarrera(name:string = 'Ingenieria Informatica'):void {
+    this.modules = this.modules.filter(module => module.career.name == name ) ;
+  }
 }

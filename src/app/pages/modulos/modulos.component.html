@@ -64,6 +64,20 @@
             </svg>
             Agregar módulo
           </button>
+          <button
+            (click)="generarReporteModulo()"
+            type="button"
+            class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+          >
+            PDF
+          </button>
+          <button
+            (click)="generateExcel()"
+            type="button"
+            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+          >
+            Excel
+          </button>
         </div>
       </div>
       <div class="overflow-x-auto">
@@ -293,7 +307,7 @@
         class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600"
       >
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          Crear usuario
+          Crear modulo
         </h3>
         <button
           type="button"
@@ -346,8 +360,15 @@
               formControlName="facultie"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             >
-              <option *ngFor="let facultad of faculties" value={{facultad.id}}>{{facultad.name}} </option>  
-              <option selected value="236" >Facultad de Ciencias de la Computacion y Telecomunicaciones</option>
+              <option
+                *ngFor="let facultad of faculties"
+                value="{{ facultad.id }}"
+              >
+                {{ facultad.name }}
+              </option>
+              <option selected value="236">
+                Facultad de Ciencias de la Computacion y Telecomunicaciones
+              </option>
             </select>
           </div>
         </div>
